@@ -5,75 +5,56 @@
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
-}
-
-/* Login page styles */
-.login_container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-}
-
-.login_form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 400px;
-  height: 300px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: 300px;
-  height: 40px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding-left: 10px;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus {
-  outline: none;
-  border: 2px solid #000;
-}
-
-button[type="submit"] {
-  width: 300px;
-  height: 40px;
-  border: none;
-  border-radius: 5px;
-  background-color: #000;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-button[type="submit"]:hover {
-  background-color: #fff;
-  color: #000;
-  border: 2px solid #000;
-}
-
-.login_description {
-  font-size: 14px;
-  color: #ccc;
-  margin: 10px 0;
-  padding: 0 10px;
-  text-align: center;
+  overflow-x: hidden;
 }
 
 /* Birtday page styles */
 .song {
   visibility: hidden;
 }
+
+/* Photocard dekorasi (hanya penghias, bukan fokus utama) */
+.photocards {
+  height: 100vh;
+  left: 0;
+  overflow: hidden;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 0;
+}
+
+.photocard {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+  opacity: 0;
+  padding: 5px 5px 16px;
+  position: absolute;
+  width: 112px;
+  will-change: transform, opacity;
+}
+
+.photocard.size-md {
+  padding: 5px 5px 18px;
+  width: 130px;
+}
+
+.photocard.size-lg {
+  padding: 6px 6px 20px;
+  width: 148px;
+}
+
+.photocard img {
+  aspect-ratio: 3 / 4;
+  border-radius: 2px;
+  display: block;
+  height: auto;
+  object-fit: cover;
+  width: 100%;
+}
+
 
 .container {
   height: 100vh;
@@ -83,6 +64,7 @@ button[type="submit"]:hover {
   text-align: center;
   visibility: hidden;
   width: 100vw;
+  z-index: 1;
 }
 
 .container > div {
@@ -123,6 +105,23 @@ button[type="submit"]:hover {
   visibility: hidden;
 }
 
+/* Kursor ketikan di chatbox: kedip selama teks diketik */
+.type-cursor {
+  animation: type-blink 0.7s step-end infinite;
+}
+
+@keyframes type-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Huruf idea-4 dipecah per karakter, inline-block supaya animasinya jalan */
+.idea-4 span {
+  display: inline-block;
+  white-space: pre;
+}
+
 .text-box .fake-btn {
   background-color: rgb(21, 161, 237);
   border-radius: 5px;
@@ -136,8 +135,9 @@ button[type="submit"]:hover {
 .five p {
   font-size: 2rem;
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 18vw;
+  right: 18vw;
+  padding: 0 1vw;
 }
 
 .idea-3 strong {
@@ -146,8 +146,13 @@ button[type="submit"]:hover {
   padding: 3px 5px;
 }
 
+/* Teks lebih panjang, jadi ukurannya disesuaikan biar tetap muat di layar */
+.five .idea-3 {
+  font-size: 1.7rem;
+}
+
 .five .idea-5 {
-  font-size: 4rem;
+  font-size: 1.8rem;
 }
 
 .idea-5 span,
@@ -156,19 +161,44 @@ button[type="submit"]:hover {
   display: inline-block;
 }
 
-.idea-6 span {
-  font-size: 15rem;
+/* Jaga spasi tetap terlihat saat teks dipecah per huruf, tapi tetap bisa turun baris */
+.hbd-chatbox span,
+.wish-hbd span {
+  white-space: pre-wrap;
+}
+
+/* Teks dipecah per huruf tanpa spasi antar span, jadi izinkan putus di mana saja
+   supaya tidak meluber melewati kotak / menabrak photocard */
+.hbd-chatbox,
+.wish-hbd {
+  overflow-wrap: anywhere;
+}
+
+/* "I 💖 U SO MUUCHH" tampil sebaris (boleh turun baris kalau sempit) */
+.five p.idea-6 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.1rem 1.1rem;
+  left: 18vw;
+  right: 18vw;
+}
+
+.five .idea-6 span {
+  font-size: 4.5rem;
+  line-height: 1.05;
 }
 
 .six {
   position: relative;
-  top: 10vh;
+  top: 4vh;
   z-index: 1;
 }
 
 .six img {
   display: inline-block;
-  height: 350px;
+  height: 260px;
   max-width: 100%;
   border-radius: 14px;
 }
@@ -269,15 +299,17 @@ button[type="submit"]:hover {
 }
 
 .wish-hbd {
-  font-size: 3em;
+  font-size: 2.4em;
   margin: 0;
   text-transform: uppercase;
 }
 
 .wish h5 {
-  font-size: 2rem;
+  font-size: 1.35rem;
   font-weight: lighter;
+  line-height: 1.4;
   margin: 10px 0 0;
+  padding: 0 15vw;
 }
 
 .nine p {
@@ -297,12 +329,6 @@ button[type="submit"]:hover {
   }
 }
 
-@media screen and (max-height: 800px) {
-  .six .hat {
-    left: 37%;
-  }
-}
-
 @media screen and (max-height: 700px) {
   .six .hat {
     left: 32%;
@@ -315,12 +341,45 @@ button[type="submit"]:hover {
   }
 }
 
-@media screen and (max-width: 500px) {
-  .login_form{
-    width: 350px;
-    height: 250px;
+/* Layar sedang (tablet / laptop kecil): teks panjang, dikecilkan & dipersempit */
+@media screen and (max-width: 1200px) {
+  .five p {
+    left: 22vw;
+    right: 22vw;
+    font-size: 1.6rem;
   }
 
+  .five p.idea-6 {
+    left: 22vw;
+    right: 22vw;
+  }
+
+  .wish h5 {
+    padding: 0 18vw;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .wish h5 {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin: 10px 0 0;
+    padding: 0 12vw;
+  }
+
+  .five p {
+    left: 16vw;
+    right: 16vw;
+    font-size: 1.5rem;
+  }
+
+  .five p.idea-6 {
+    left: 16vw;
+    right: 16vw;
+  }
+}
+
+@media screen and (max-width: 500px) {
   .container {
     width: 100%;
     padding: 0 10px;
@@ -339,8 +398,25 @@ button[type="submit"]:hover {
     display: block;
   }
 
-  .idea-6 span {
-    font-size: 10rem;
+  .five p {
+    font-size: 1.3rem;
+    left: 0;
+    right: 0;
+    padding: 0 6vw;
+  }
+
+  .five p.idea-6 {
+    left: 0;
+    right: 0;
+  }
+
+  .five .idea-3,
+  .five .idea-5 {
+    font-size: 1.2rem;
+  }
+
+  .five .idea-6 span {
+    font-size: 2.2rem;
   }
 
   .six .hat {
@@ -348,16 +424,44 @@ button[type="submit"]:hover {
     width: 50px;
   }
 
+  /* Teks panjang: perkecil & rapatkan supaya tidak terpotong di layar HP */
+  .six {
+    top: 4vh;
+  }
+
+  .six img {
+    height: 260px;
+  }
+
   .wish-hbd {
-    font-size: 2.2em;
+    font-size: 1.9em;
   }
 
   .wish h5 {
-    font-size: .8rem;
+    font-size: .78rem;
+    line-height: 1.35;
+    margin: 8px 0 0;
+    padding: 0 6vw;
   }
 
   .nine p {
     font-size: 1.5rem;
     font-weight: lighter;
+  }
+
+  /* Photocard lebih kecil di layar HP supaya teks tengah tetap lega */
+  .photocard {
+    padding: 4px 4px 14px;
+    width: 92px;
+  }
+
+  .photocard.size-md {
+    padding: 5px 5px 15px;
+    width: 104px;
+  }
+
+  .photocard.size-lg {
+    padding: 5px 5px 16px;
+    width: 116px;
   }
 }
